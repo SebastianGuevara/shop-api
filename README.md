@@ -9,6 +9,7 @@ El siguiente trabajo es de una api restful de una tienda la cual tiene 4 endpoin
 - Para probar el api toca ingresar a localhost:8010
 - Para ingresar a swagger tiene que ir a /swagger-ui/index.html#
 - El archivo de postman esta en los archivos del repositorio
+- Se debe correr con Java 19
 
 ## Participantes
 - Juan Andrés Valderrama
