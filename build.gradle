@@ -28,7 +28,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.14'
-
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
 
 }
 
