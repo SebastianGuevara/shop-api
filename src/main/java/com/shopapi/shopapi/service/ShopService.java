@@ -38,6 +38,11 @@ public class ShopService implements IShopService {
     }
 
     @Override
+    public List<Sale> getSaleByUserDocument(Integer document) {
+        return saleRepository.findSaleByUserDocument(document);
+    }
+
+    @Override
     public String sellProducts(List<Stock> products) {
         Map<String, Integer> soldProducts = new HashMap<>();
         for (Stock product : products) {
@@ -53,6 +58,7 @@ public class ShopService implements IShopService {
         }
         return String.format("You sold: %s. And the total price was %f", soldProducts, getTotalSalePrice(products));
     }
+
 
 
     @Override

@@ -61,4 +61,9 @@ public class ShopController {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
+    @Operation(summary = "Get user sale history by document")
+    @GetMapping("/userSaleHistory/{document}")
+    public ResponseEntity getSaleByUserDocument(@PathVariable Integer document){
+        return new ResponseEntity(shopService.getSaleByUserDocument(document),HttpStatus.ACCEPTED);
+    }
 }
