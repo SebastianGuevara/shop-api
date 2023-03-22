@@ -1,11 +1,13 @@
 package com.shopapi.shopapi.service;
 
 import com.shopapi.shopapi.data.Product;
-import com.shopapi.shopapi.repository.IShopRepository;
+import com.shopapi.shopapi.data.Stock;
+import com.shopapi.shopapi.repository.ISaleProductRepository;
+import com.shopapi.shopapi.repository.ISaleRepository;
+import com.shopapi.shopapi.repository.IStockRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,47 +15,53 @@ import java.util.Map;
 @AllArgsConstructor
 @Service
 public class ShopService implements IShopService {
-    private final IShopRepository shopRepository;
+    private final ISaleRepository saleRepository;
+    private final ISaleProductRepository saleProductRepository;
+    private final IStockRepository stockRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        if (0 > product.getCode())
+    public Stock addProduct(Stock stock) {
+        if(0 > stock.getQuantity())
             throw new RuntimeException("No se puede crear un producto con stock negativo");
-        return shopRepository.save(product);
+        return stockRepository.save(stock);
     }
 
     @Override
-    public String sellProducts(List<Product> products) {
+    public String sellProducts(List<Stock> products) {
         Map<String, Integer> soldProducts = new HashMap<>();
         float totalPrice = 0;
 
-        for (Product product : products) {
-            Product stockProduct = shopRepository.findById(product.getCode()).get();
-            if (0 <= stockProduct.getStock() - product.getStock()) {
-                stockProduct.setStock(stockProduct.getStock() - product.getStock());
-                totalPrice += stockProduct.getUnitPrice();
-                soldProducts.put(stockProduct.getName(), product.getStock());
-                shopRepository.save(stockProduct);
-            } else {
-                throw new RuntimeException(String.format("You can't buy %d of %s because it only has %d units available.", product.getStock(), stockProduct.getName(), stockProduct.getStock()));
+        for (Stock product : products) {
+            Stock stockProduct = stockRepository.findById(product.getID()).get();
+            if(0 <= stockProduct.getQuantity() - product.getQuantity()){
+                stockProduct.setQuantity((stockProduct.getQuantity()-product.getQuantity()));
+                totalPrice += stockProduct.getValue();
+                soldProducts.put(stockProduct.getName(), product.getQuantity());
+                stockRepository.save(stockProduct);
+            }
+            else{
+                throw new RuntimeException(String.format("You can't buy %d of %s because it only has %d units available.", product.getQuantity(), stockProduct.getName(), stockProduct.getQuantity()));
             }
         }
         return String.format("You sold: %s. And the total price was %f", soldProducts, totalPrice);
     }
 
+
     @Override
-    public Product updateStock(Integer code, Integer stockToAdd) {
-        Product product = shopRepository.findById(code).get();
+    public Stock updateStock(Integer code, Integer stockToAdd) {
+        Stock product = stockRepository.findById(code).get();
         if (0 < stockToAdd) {
-            product.setStock(product.getStock() + stockToAdd);
+            product.setQuantity(product.getQuantity() + stockToAdd);
         } else {
             throw new RuntimeException("Cant not add negative stock");
         }
-        return shopRepository.save(product);
+        return stockRepository.save(product);
     }
 
     @Override
-    public List<Product> getProducts() {
-        return shopRepository.findAll();
+    public List<Stock> getProducts() {
+        return stockRepository.findAll();
     }
+
+
 }

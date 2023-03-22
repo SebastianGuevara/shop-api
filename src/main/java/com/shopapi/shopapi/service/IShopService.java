@@ -1,16 +1,18 @@
 package com.shopapi.shopapi.service;
 
 import com.shopapi.shopapi.data.Product;
+import com.shopapi.shopapi.data.SaleProduct;
+import com.shopapi.shopapi.data.Stock;
 
 import java.util.List;
 
 
 public interface IShopService {
-    Product addProduct(Product product);
+    Stock addProduct(Stock stock);
 
-    String sellProducts(List<Product> products);
+    String sellProducts(List<Stock> products);
 
-    Product updateStock(Integer code, Integer stockToaAdd);
+    Stock updateStock(Integer code, Integer stockToaAdd);
 
-    List<Product> getProducts();
+    List<Stock> getProducts();
 }

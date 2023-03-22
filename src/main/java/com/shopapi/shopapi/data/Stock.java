@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "STOCK")
@@ -13,8 +15,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Stock {
+    public Stock(Integer ID, Integer quantity) {
+        this.ID = ID;
+        this.quantity = quantity;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
     @Column(nullable = false,name="NAME")

@@ -1,5 +1,6 @@
 package com.shopapi.shopapi.data;
 
+import com.shopapi.shopapi.controllers.dto.StockDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,17 @@ public class SaleProduct
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
-    @Column(nullable = false,name = "PRODUCT")
-    private Integer saleProduct;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT", referencedColumnName = "ID")
+    private Stock stock;
 
     @Column(nullable = false,name="QUANTITY")
     private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
+    private Sale sale;
+
+
 
 }
