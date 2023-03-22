@@ -24,4 +24,10 @@ public class Sale
     private Integer totalAmount;
     @Column(nullable = false, name = "DATE_CREATED")
     private Date dateCreated;
+
+    public Sale(Integer documentClient, Integer totalAmount, Date dateCreated) {
+        this.documentClient = documentClient;
+        this.totalAmount = totalAmount;
+        this.dateCreated = dateCreated;
+    }
 }

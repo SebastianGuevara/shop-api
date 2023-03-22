@@ -14,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class SaleProduct
 {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
@@ -29,6 +30,9 @@ public class SaleProduct
     @JoinColumn(name = "SALE_ID", referencedColumnName = "ID")
     private Sale sale;
 
-
-
+    public SaleProduct(Stock stock, Integer quantity, Sale sale) {
+        this.stock = stock;
+        this.quantity = quantity;
+        this.sale = sale;
+    }
 }

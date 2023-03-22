@@ -1,6 +1,8 @@
 package com.shopapi.shopapi.service;
 
 import com.shopapi.shopapi.data.Product;
+import com.shopapi.shopapi.data.Sale;
+import com.shopapi.shopapi.data.SaleProduct;
 import com.shopapi.shopapi.data.Stock;
 import com.shopapi.shopapi.repository.ISaleProductRepository;
 import com.shopapi.shopapi.repository.ISaleRepository;
@@ -25,17 +27,23 @@ public class ShopService implements IShopService {
             throw new RuntimeException("No se puede crear un producto con stock negativo");
         return stockRepository.save(stock);
     }
+    @Override
+    public float getTotalSalePrice(List<Stock> products) {
+        Integer totalPrice = 0;
+        for (Stock product : products){
+            Stock stockProduct = stockRepository.findById(product.getID()).get();
+            totalPrice = stockProduct.getValue()*product.getQuantity();
+        }
+        return totalPrice;
+    }
 
     @Override
     public String sellProducts(List<Stock> products) {
         Map<String, Integer> soldProducts = new HashMap<>();
-        float totalPrice = 0;
-
         for (Stock product : products) {
             Stock stockProduct = stockRepository.findById(product.getID()).get();
             if(0 <= stockProduct.getQuantity() - product.getQuantity()){
                 stockProduct.setQuantity((stockProduct.getQuantity()-product.getQuantity()));
-                totalPrice += stockProduct.getValue();
                 soldProducts.put(stockProduct.getName(), product.getQuantity());
                 stockRepository.save(stockProduct);
             }
@@ -43,7 +51,7 @@ public class ShopService implements IShopService {
                 throw new RuntimeException(String.format("You can't buy %d of %s because it only has %d units available.", product.getQuantity(), stockProduct.getName(), stockProduct.getQuantity()));
             }
         }
-        return String.format("You sold: %s. And the total price was %f", soldProducts, totalPrice);
+        return String.format("You sold: %s. And the total price was %f", soldProducts, getTotalSalePrice(products));
     }
 
 
@@ -63,5 +71,13 @@ public class ShopService implements IShopService {
         return stockRepository.findAll();
     }
 
+    @Override
+    public Sale createSale(Sale sale) {
+        return saleRepository.save(sale);
+    }
 
+    @Override
+    public SaleProduct createSaleProduct(SaleProduct saleProduct) {
+        return saleProductRepository.save(saleProduct);
+    }
 }
