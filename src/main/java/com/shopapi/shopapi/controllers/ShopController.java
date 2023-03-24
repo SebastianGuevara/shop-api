@@ -25,9 +25,14 @@ public class ShopController {
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {
+        try{
+            Stock product = new Stock(stockDTO.getID(),stockDTO.getName(),stockDTO.getValue(),stockDTO.getQuantity(),new Date());
+            return new ResponseEntity(shopService.addProduct(product), HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
 
-        Stock product = new Stock(stockDTO.getID(),stockDTO.getName(),stockDTO.getValue(),stockDTO.getQuantity(),new Date());
-        return new ResponseEntity(shopService.addProduct(product), HttpStatus.CREATED);
     }
     @Operation(summary = "Get all the products.")
     @GetMapping("/products")
