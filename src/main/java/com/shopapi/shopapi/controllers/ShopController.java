@@ -25,13 +25,25 @@ public class ShopController {
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {
-        Stock product = new Stock(stockDTO.getID(),stockDTO.getName(),stockDTO.getValue(),stockDTO.getQuantity(),new Date());
-        return new ResponseEntity(shopService.addProduct(product), HttpStatus.CREATED);
+        try{
+            Stock product = new Stock(stockDTO.getID(),stockDTO.getName(),stockDTO.getValue(),stockDTO.getQuantity(),new Date());
+            return new ResponseEntity(shopService.addProduct(product), HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
     @Operation(summary = "Get all the products.")
     @GetMapping("/products")
     public ResponseEntity getProducts() {
-        return new ResponseEntity(shopService.getProducts(), HttpStatus.ACCEPTED);
+        try{
+            return new ResponseEntity(shopService.getProducts(), HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
     @Operation(summary = "Add stock to products")
     @PutMapping("/productStock")
@@ -57,13 +69,18 @@ public class ShopController {
                 shopService.createSaleProduct(new SaleProduct(new Stock(product.getCode(),product.getUnitsToSell()),product.getUnitsToSell(), sale));
             }
             return new ResponseEntity(shopService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
+        } catch (Exception e){
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
     @Operation(summary = "Get user sale history by document")
     @GetMapping("/userSaleHistory/{document}")
     public ResponseEntity getSaleByUserDocument(@PathVariable Integer document){
-        return new ResponseEntity(shopService.getSaleByUserDocument(document),HttpStatus.ACCEPTED);
+        try{
+            return new ResponseEntity(shopService.getSaleByUserDocument(document),HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
     }
 }
