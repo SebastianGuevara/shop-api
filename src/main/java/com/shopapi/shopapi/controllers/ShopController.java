@@ -83,4 +83,15 @@ public class ShopController {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
+    @Operation(summary = "Get all the sales.")
+    @GetMapping("/sale")
+    public ResponseEntity getSales() {
+        try{
+            return new ResponseEntity(shopService.getSales(), HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.I_AM_A_TEAPOT);
+        }
+
+    }
 }

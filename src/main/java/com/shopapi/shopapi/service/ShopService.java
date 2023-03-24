@@ -86,4 +86,8 @@ public class ShopService implements IShopService {
     public SaleProduct createSaleProduct(SaleProduct saleProduct) {
         return saleProductRepository.save(saleProduct);
     }
+    @Override
+    public List<Sale> getSales() {
+        return saleRepository.findAll();
+    }
 }

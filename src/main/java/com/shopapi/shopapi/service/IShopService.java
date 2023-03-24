@@ -17,4 +17,5 @@ public interface IShopService {
     SaleProduct createSaleProduct(SaleProduct saleProduct);
     float getTotalSalePrice(List<Stock> products);
     List<Sale> getSaleByUserDocument(Integer document);
+    List<Sale> getSales();
 }
