@@ -1,0 +1,17 @@
+package com.shopapi.shopapi.service;
+
+import com.shopapi.shopapi.data.Sale;
+import com.shopapi.shopapi.data.Stock;
+
+import java.sql.Date;
+import java.util.List;
+
+public interface ISaleService {
+    List<Sale> getSaleByUserDocument(Integer document);
+
+    boolean preventThreeSalesSameDay(Integer document, Date date);
+
+    Sale createSale(Sale sale);
+
+    List<Sale> getSales();
+}

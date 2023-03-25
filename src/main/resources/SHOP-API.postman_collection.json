@@ -56,6 +56,53 @@
 			"response": []
 		},
 		{
+			"name": "Get user sale history by client document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8010/api/userSaleHistory/:document",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"api",
+						"userSaleHistory",
+						":document"
+					],
+					"variable": [
+						{
+							"key": "document",
+							"value": "1000698809"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get sales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8010/api/sale",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"api",
+						"sale"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add stock to products",
 			"request": {
 				"method": "PUT",
