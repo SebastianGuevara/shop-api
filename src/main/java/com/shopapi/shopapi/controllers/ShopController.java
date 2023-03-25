@@ -59,18 +59,23 @@ public class ShopController {
     @Operation(summary = "Sell products")
     @PutMapping("/sellProducts")
     public ResponseEntity sellProducts(@RequestBody SellDataDTO sellDataDTO) {
-        try {
-            List<Stock> productsToSell = new ArrayList<>();
-            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                productsToSell.add(new Stock(product.getCode(),product.getUnitsToSell()));
+        if(shopService.preventThreeSalesSameDay(sellDataDTO.getClientDocument(), new java.sql.Date(new Date().getTime()))){
+            try {
+                List<Stock> productsToSell = new ArrayList<>();
+                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                    productsToSell.add(new Stock(product.getCode(),product.getUnitsToSell()));
+                }
+                Sale sale = shopService.createSale(new Sale(sellDataDTO.getClientDocument(),Float.valueOf(shopService.getTotalSalePrice(productsToSell)).intValue(),new Date()));
+                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                    shopService.createSaleProduct(new SaleProduct(new Stock(product.getCode(),product.getUnitsToSell()),product.getUnitsToSell(), sale));
+                }
+                return new ResponseEntity(shopService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
+            } catch (Exception e){
+                return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
             }
-            Sale sale = shopService.createSale(new Sale(sellDataDTO.getClientDocument(),Float.valueOf(shopService.getTotalSalePrice(productsToSell)).intValue(),new Date()));
-            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                shopService.createSaleProduct(new SaleProduct(new Stock(product.getCode(),product.getUnitsToSell()),product.getUnitsToSell(), sale));
-            }
-            return new ResponseEntity(shopService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
-        } catch (Exception e){
-            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        }
+        else{
+          return new ResponseEntity("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY", HttpStatus.I_AM_A_TEAPOT);
         }
     }
     @Operation(summary = "Get user sale history by document")
@@ -83,4 +88,5 @@ public class ShopController {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
+
 }

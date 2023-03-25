@@ -1,6 +1,5 @@
 package com.shopapi.shopapi.service;
 
-import com.shopapi.shopapi.data.Product;
 import com.shopapi.shopapi.data.Sale;
 import com.shopapi.shopapi.data.SaleProduct;
 import com.shopapi.shopapi.data.Stock;
@@ -10,6 +9,7 @@ import com.shopapi.shopapi.repository.IStockRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +40,12 @@ public class ShopService implements IShopService {
     @Override
     public List<Sale> getSaleByUserDocument(Integer document) {
         return saleRepository.findSaleByUserDocument(document);
+    }
+
+    @Override
+    public boolean preventThreeSalesSameDay(Integer document, Date date) {
+        List<Sale> clientSales = saleRepository.getClientCurrentSales(document,date);
+        return 3 > clientSales.size();
     }
 
     @Override
