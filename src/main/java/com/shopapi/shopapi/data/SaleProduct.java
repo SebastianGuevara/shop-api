@@ -12,8 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaleProduct
-{
+public class SaleProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,7 @@ public class SaleProduct
     @JoinColumn(name = "PRODUCT", referencedColumnName = "ID")
     private Stock stock;
 
-    @Column(nullable = false,name="QUANTITY")
+    @Column(nullable = false, name = "QUANTITY")
     private Integer quantity;
 
     @ManyToOne
