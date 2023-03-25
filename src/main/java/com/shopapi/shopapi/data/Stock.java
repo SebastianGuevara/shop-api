@@ -23,15 +23,15 @@ public class Stock {
     @Id
     private Integer ID;
 
-    @Column(nullable = false,name="NAME")
+    @Column(nullable = false, name = "NAME")
     private String name;
 
-    @Column(nullable = false,name = "VALUE")
+    @Column(nullable = false, name = "VALUE")
     private Integer value;
 
-    @Column(nullable = false,name = "QUANTITY")
+    @Column(nullable = false, name = "QUANTITY")
     private Integer quantity;
 
-    @Column(nullable = false,name = "DATE_CREATED")
+    @Column(nullable = false, name = "DATE_CREATED")
     private Date dateCreated;
 }
