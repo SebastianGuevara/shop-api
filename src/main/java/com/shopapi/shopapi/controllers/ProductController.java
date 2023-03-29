@@ -1,6 +1,9 @@
 package com.shopapi.shopapi.controllers;
 
-import com.shopapi.shopapi.controllers.dto.*;
+import com.shopapi.shopapi.controllers.dto.ProductToSellDTO;
+import com.shopapi.shopapi.controllers.dto.SellDataDTO;
+import com.shopapi.shopapi.controllers.dto.StockDTO;
+import com.shopapi.shopapi.controllers.dto.StockToAddDTO;
 import com.shopapi.shopapi.data.Sale;
 import com.shopapi.shopapi.data.SaleProduct;
 import com.shopapi.shopapi.data.Stock;
@@ -13,18 +16,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-public class ShopController {
-
+public class ProductController
+{
     private final ISaleService saleService;
     private final ISaleProductService saleProductService;
     private final IStockService stockService;
-
-
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {
@@ -77,26 +80,5 @@ public class ShopController {
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
-    }
-
-    @Operation(summary = "Get user sale history by document")
-    @GetMapping("/userSaleHistory/{document}")
-    public ResponseEntity getSaleByUserDocument(@PathVariable Integer document) {
-        try {
-            return new ResponseEntity(saleService.getSaleByUserDocument(document), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
-        }
-    }
-
-    @Operation(summary = "Get all the sales.")
-    @GetMapping("/sale")
-    public ResponseEntity getSales() {
-        try {
-            return new ResponseEntity(saleService.getSales(), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
-        }
-
     }
 }
