@@ -21,10 +21,8 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
-      - name: Run unit tests
+      - name: Run tests
         run: ./gradlew test
-      - name: Run integration tests
-        run: ./gradlew integrationTest
       - name: Check code coverage
         run: ./gradlew jacocoTestReport
       - name: Upload code coverage report
