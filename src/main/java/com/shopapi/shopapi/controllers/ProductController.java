@@ -1,6 +1,9 @@
 package com.shopapi.shopapi.controllers;
 
-import com.shopapi.shopapi.controllers.dto.*;
+import com.shopapi.shopapi.controllers.dto.ProductToSellDTO;
+import com.shopapi.shopapi.controllers.dto.SellDataDTO;
+import com.shopapi.shopapi.controllers.dto.StockDTO;
+import com.shopapi.shopapi.controllers.dto.StockToAddDTO;
 import com.shopapi.shopapi.data.Sale;
 import com.shopapi.shopapi.data.SaleProduct;
 import com.shopapi.shopapi.data.Stock;
@@ -13,18 +16,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-public class ShopController {
-
+public class ProductController
+{
     private final ISaleService saleService;
     private final ISaleProductService saleProductService;
     private final IStockService stockService;
-
-
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {
@@ -63,43 +66,19 @@ public class ShopController {
     @Operation(summary = "Sell products")
     @PutMapping("/sellProducts")
     public ResponseEntity sellProducts(@RequestBody SellDataDTO sellDataDTO) {
-        if (saleService.preventThreeSalesSameDay(sellDataDTO.getClientDocument(), new java.sql.Date(new Date().getTime()))) {
-            try {
-                List<Stock> productsToSell = new ArrayList<>();
-                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                    productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
-                }
-                Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
-                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                    saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
-                }
-                return new ResponseEntity(stockService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
-            } catch (Exception e) {
-                return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        try {
+            saleService.preventThreeSalesSameDay(sellDataDTO.getClientDocument(), new java.sql.Date(new Date().getTime()));
+            List<Stock> productsToSell = new ArrayList<>();
+            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
             }
-        } else {
-            return new ResponseEntity("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY", HttpStatus.I_AM_A_TEAPOT);
-        }
-    }
-
-    @Operation(summary = "Get user sale history by document")
-    @GetMapping("/userSaleHistory/{document}")
-    public ResponseEntity getSaleByUserDocument(@PathVariable Integer document) {
-        try {
-            return new ResponseEntity(saleService.getSaleByUserDocument(document), HttpStatus.ACCEPTED);
+            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
+            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
+            }
+            return new ResponseEntity(stockService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
-    }
-
-    @Operation(summary = "Get all the sales.")
-    @GetMapping("/sale")
-    public ResponseEntity getSales() {
-        try {
-            return new ResponseEntity(saleService.getSales(), HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
-        }
-
     }
 }

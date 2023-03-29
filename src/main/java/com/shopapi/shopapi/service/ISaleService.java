@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISaleService {
     List<Sale> getSaleByUserDocument(Integer document);
 
-    boolean preventThreeSalesSameDay(Integer document, Date date);
+    void preventThreeSalesSameDay(Integer document, Date date);
 
     Sale createSale(Sale sale);
 
