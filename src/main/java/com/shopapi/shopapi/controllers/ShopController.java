@@ -63,22 +63,19 @@ public class ShopController {
     @Operation(summary = "Sell products")
     @PutMapping("/sellProducts")
     public ResponseEntity sellProducts(@RequestBody SellDataDTO sellDataDTO) {
-        if (saleService.preventThreeSalesSameDay(sellDataDTO.getClientDocument(), new java.sql.Date(new Date().getTime()))) {
-            try {
-                List<Stock> productsToSell = new ArrayList<>();
-                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                    productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
-                }
-                Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
-                for (ProductToSellDTO product : sellDataDTO.getProducts()) {
-                    saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
-                }
-                return new ResponseEntity(stockService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
-            } catch (Exception e) {
-                return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
+        try {
+            saleService.preventThreeSalesSameDay(sellDataDTO.getClientDocument(), new java.sql.Date(new Date().getTime()));
+            List<Stock> productsToSell = new ArrayList<>();
+            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
             }
-        } else {
-            return new ResponseEntity("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY", HttpStatus.I_AM_A_TEAPOT);
+            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
+            for (ProductToSellDTO product : sellDataDTO.getProducts()) {
+                saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
+            }
+            return new ResponseEntity(stockService.sellProducts(productsToSell), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
 

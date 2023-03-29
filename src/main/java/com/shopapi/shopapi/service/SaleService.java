@@ -19,9 +19,10 @@ public class SaleService implements ISaleService {
     }
 
     @Override
-    public boolean preventThreeSalesSameDay(Integer document, Date date) {
+    public void preventThreeSalesSameDay(Integer document, Date date) {
         List<Sale> clientSales = saleRepository.getClientCurrentSales(document, date);
-        return 3 > clientSales.size();
+        if(3 < clientSales.size())
+            throw new RuntimeException("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY");
     }
 
     @Override
