@@ -35,4 +35,11 @@ public class SaleTest {
         Assertions.assertNotNull(saleService.getSales());
     }
 
+    @Test
+    public void Given_a_document_When_invoking_getSaleByUserDocument_Then_show_all_sales_with_the_same_user_document(){
+        Sale sale = new Sale(1, 1007207933, 100, new Date());
+        Mockito.when(saleRepository.findSaleByUserDocument(sale.getDocumentClient())).thenReturn(Collections.singletonList(sale));
+        Assertions.assertNotNull(saleService.getSaleByUserDocument(sale.getDocumentClient()));
+    }
+
 }

@@ -14,9 +14,7 @@ public class SaleService implements ISaleService {
     private final ISaleRepository saleRepository;
 
     @Override
-    public List<Sale> getSaleByUserDocument(Integer document) {
-        return saleRepository.findSaleByUserDocument(document);
-    }
+    public List<Sale> getSaleByUserDocument(Integer document) { return saleRepository.findSaleByUserDocument(document); }
 
     @Override
     public void preventThreeSalesSameDay(Integer document, Date date) {
