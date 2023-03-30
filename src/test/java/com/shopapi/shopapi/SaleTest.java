@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.Date;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,5 +28,11 @@ public class SaleTest {
         Assertions.assertEquals(sale, saleService.createSale(sale));
     }
 
+    @Test
+    public void Given_a_nothing_When_invoking_getSales_Then_show_all_sales(){
+        Sale sale = new Sale(1, 1007207933, 100, new Date());
+        Mockito.when(saleRepository.findAll()).thenReturn(Collections.singletonList(sale));
+        Assertions.assertNotNull(saleService.getSales());
+    }
 
 }
