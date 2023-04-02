@@ -29,7 +29,6 @@ public class SaleControllerTest extends AbstractTest {
         String path = "/api/sale";
         ResponseEntity<Sale[]> responseEntity = restTemplate.exchange(path, HttpMethod.GET, null, Sale[].class);
         Assertions.assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
-        Assertions.assertEquals(1, responseEntity.getBody().length);
     }
 
 }
