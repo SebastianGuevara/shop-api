@@ -72,19 +72,27 @@ public class StockTest {
     }
     @Test
     public void Given_a_list_of_products_that_are_more_than_the_stock_When_invoking_sellProducts_Then_throw_exception(){
-        List<Stock> stocks = new ArrayList<>();
         Stock stock1 = new Stock(1,"Bimbo",3000,1,new Date());
-        Stock stock2 = new Stock(2,"Kellogs",3000,3000,new Date());
-        Stock stock3 = new Stock(3,"Chocorramo",3000,1,new Date());
-        stocks.add(stock1);
-        stocks.add(stock2);
-        stocks.add(stock3);
-        for(Stock stock : stocks){
-            Mockito.when(stockRepository.findById(stock.getID())).thenReturn(Optional.of(stock));
-        }
-        //Mockito.when(stockRepository.findById(1).get()).thenReturn(stock);
-        //Assertions.assertThrows(RuntimeException.class,()->stockService.sellProducts(stock))
+        List<Stock> stocks = new ArrayList<>();
+        Stock newStock1 = new Stock(1,"Bimbo",3000,2,new Date());
+        stocks.add(newStock1);
+        Mockito.when(stockRepository.findById(stock1.getID())).thenReturn(Optional.of(stock1));
+        Assertions.assertThrows(RuntimeException.class, ()->stockService.sellProducts(stocks));
     }
-
-
+    @Test
+    public void Given_a_list_of_products_When_invoking_sellProducts_Then_show_sold_products(){
+        Stock stock1 = new Stock(1,"Bimbo",3000,20,new Date());
+        Stock stock2 = new Stock(2,"Kellogs",3000,20,new Date());
+        List<Stock> stocks = new ArrayList<>();
+        Map<String, Integer> soldProducts = new HashMap<>();
+        Stock newStock1 = new Stock(1,"Bimbo",3000,2,new Date());
+        Stock newStock2 = new Stock(2,"Kellogs",3000,2,new Date());
+        soldProducts.put(newStock1.getName(),newStock1.getQuantity());
+        soldProducts.put(newStock2.getName(),newStock2.getQuantity());
+        stocks.add(newStock1);
+        stocks.add(newStock2);
+        Mockito.when(stockRepository.findById(stock1.getID())).thenReturn(Optional.of(stock1));
+        Mockito.when(stockRepository.findById(stock2.getID())).thenReturn(Optional.of(stock2));
+        Assertions.assertEquals(String.format("You sold: %s. And the total price was %f",soldProducts,12000.0),stockService.sellProducts(stocks));
+    }
 }
