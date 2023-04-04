@@ -1,4 +1,4 @@
-package com.shopapi.shopapi;
+package com.shopapi.shopapi.service;
 
 import com.shopapi.shopapi.data.Stock;
 import com.shopapi.shopapi.repository.IStockRepository;

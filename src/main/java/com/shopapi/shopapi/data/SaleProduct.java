@@ -1,6 +1,5 @@
 package com.shopapi.shopapi.data;
 
-import com.shopapi.shopapi.controllers.dto.StockDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

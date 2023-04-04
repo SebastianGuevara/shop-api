@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class SaleController {
     private final ISaleService saleService;
+
     @Operation(summary = "Get user sale history by document")
     @GetMapping("/userSaleHistory/{document}")
     public ResponseEntity getSaleByUserDocument(@PathVariable Integer document) {

@@ -1,5 +1,6 @@
-package com.shopapi.shopapi;
+package com.shopapi.shopapi.controller;
 
+import com.shopapi.shopapi.AbstractTest;
 import com.shopapi.shopapi.controllers.dto.ProductToSellDTO;
 import com.shopapi.shopapi.controllers.dto.SellDataDTO;
 import com.shopapi.shopapi.controllers.dto.StockDTO;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 
 import java.util.ArrayList;
 import java.util.Objects;
