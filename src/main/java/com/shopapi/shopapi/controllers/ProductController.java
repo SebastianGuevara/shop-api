@@ -23,11 +23,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-public class ProductController
-{
+public class ProductController {
     private final ISaleService saleService;
     private final ISaleProductService saleProductService;
     private final IStockService stockService;
+
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {

@@ -5,7 +5,7 @@ import com.shopapi.shopapi.repository.ISaleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class SaleService implements ISaleService {
     @Override
     public void preventThreeSalesSameDay(Integer document, Date date) {
         List<Sale> clientSales = saleRepository.getClientCurrentSales(document, date);
-        if(3 <= clientSales.size())
+        if (3 <= clientSales.size())
             throw new RuntimeException("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY");
     }
 

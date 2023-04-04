@@ -26,7 +26,7 @@ public class StockService implements IStockService {
         Integer totalPrice = 0;
         for (Stock product : products) {
             Stock stockProduct = stockRepository.findById(product.getID()).get();
-            totalPrice = stockProduct.getValue() * product.getQuantity();
+            totalPrice += stockProduct.getValue() * product.getQuantity();
         }
         return totalPrice;
     }
