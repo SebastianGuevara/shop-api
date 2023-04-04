@@ -14,12 +14,14 @@ public class SaleService implements ISaleService {
     private final ISaleRepository saleRepository;
 
     @Override
-    public List<Sale> getSaleByUserDocument(Integer document) { return saleRepository.findSaleByUserDocument(document); }
+    public List<Sale> getSaleByUserDocument(Integer document) {
+        return saleRepository.findSaleByUserDocument(document);
+    }
 
     @Override
     public void preventThreeSalesSameDay(Integer document, Date date) {
         List<Sale> clientSales = saleRepository.getClientCurrentSales(document, date);
-        if(3 <= clientSales.size())
+        if (3 <= clientSales.size())
             throw new RuntimeException("CAN'T COMPLETE SALE BECAUSE THE CLIENT ALREADY HAS 3 SALES TODAY");
     }
 
