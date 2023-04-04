@@ -24,7 +24,7 @@ public class Stock {
     @Column(nullable = false, name = "NAME")
     private String name;
 
-    @Column(nullable = false, name = "VALUE")
+    @Column(nullable = false, name = "UNIT_VALUE")
     private Integer value;
 
     @Column(nullable = false, name = "QUANTITY")
