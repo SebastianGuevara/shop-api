@@ -1,5 +1,6 @@
-package com.shopapi.shopapi;
+package com.shopapi.shopapi.controller;
 
+import com.shopapi.shopapi.AbstractTest;
 import com.shopapi.shopapi.controllers.dto.ProductToSellDTO;
 import com.shopapi.shopapi.controllers.dto.SellDataDTO;
 import com.shopapi.shopapi.controllers.dto.StockDTO;

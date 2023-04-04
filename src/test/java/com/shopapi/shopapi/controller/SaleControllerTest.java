@@ -1,5 +1,6 @@
-package com.shopapi.shopapi;
+package com.shopapi.shopapi.controller;
 
+import com.shopapi.shopapi.AbstractTest;
 import com.shopapi.shopapi.data.Sale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
