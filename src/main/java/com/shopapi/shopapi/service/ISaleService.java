@@ -3,7 +3,7 @@ package com.shopapi.shopapi.service;
 import com.shopapi.shopapi.data.Sale;
 import com.shopapi.shopapi.data.Stock;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public interface ISaleService {

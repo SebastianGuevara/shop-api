@@ -5,7 +5,7 @@ import com.shopapi.shopapi.repository.ISaleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor

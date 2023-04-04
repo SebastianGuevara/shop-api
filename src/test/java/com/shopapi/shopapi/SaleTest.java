@@ -11,8 +11,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class SaleTest {
@@ -42,4 +44,18 @@ public class SaleTest {
         Assertions.assertNotNull(saleService.getSaleByUserDocument(sale.getDocumentClient()));
     }
 
+    @Test
+    public void Given_a_document_and_three_times_same_date_When_invoking_preventThreeSalesSameDay_Then_throw_exception(){
+        List<Sale> clientSales = new ArrayList<>();
+        Sale sale1 = new Sale(1, 1007207933, 100, new Date());
+        Sale sale2 = new Sale(2, 1007207933, 100, new Date());
+        Sale sale3 = new Sale(3, 1007207933, 100, new Date());
+        Sale sale4 = new Sale(3, 1007207933, 100, new Date());
+        clientSales.add(sale1);
+        clientSales.add(sale2);
+        clientSales.add(sale3);
+        clientSales.add(sale4);
+        Mockito.when(saleRepository.getClientCurrentSales(sale1.getDocumentClient(),sale1.getDateCreated())).thenReturn(clientSales);
+        Assertions.assertThrows(RuntimeException.class,()->saleService.preventThreeSalesSameDay(sale1.getDocumentClient(),sale1.getDateCreated()));
+    }
 }
