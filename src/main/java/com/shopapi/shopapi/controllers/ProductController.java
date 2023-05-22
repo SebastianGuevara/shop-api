@@ -28,6 +28,7 @@ public class ProductController {
     private final ISaleProductService saleProductService;
     private final IStockService stockService;
 
+    @CrossOrigin(origins = "*")
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
     public ResponseEntity addProduct(@RequestBody StockDTO stockDTO) {
@@ -40,6 +41,7 @@ public class ProductController {
 
     }
 
+    @CrossOrigin(origins = "*")
     @Operation(summary = "Get all the products.")
     @GetMapping("/products")
     public ResponseEntity getProducts() {
@@ -50,7 +52,7 @@ public class ProductController {
         }
 
     }
-
+    @CrossOrigin(origins = "*")
     @Operation(summary = "Add stock to products")
     @PutMapping("/productStock")
     public ResponseEntity updateStock(@RequestBody StockToAddDTO stockDTO) {
@@ -62,7 +64,7 @@ public class ProductController {
             return new ResponseEntity(e.getMessage(), HttpStatus.I_AM_A_TEAPOT);
         }
     }
-
+    @CrossOrigin(origins = "*")
     @Operation(summary = "Sell products")
     @PutMapping("/sellProducts")
     public ResponseEntity sellProducts(@RequestBody SellDataDTO sellDataDTO) {
