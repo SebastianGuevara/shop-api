@@ -34,7 +34,7 @@ public class AmazonListener {
             for (ProductToSellDTO product : sellDataDTO.getProducts()) {
                 productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
             }
-            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
+            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date(),"MERCADO LIBRE"));
             for (ProductToSellDTO product : sellDataDTO.getProducts()) {
                 saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
             }

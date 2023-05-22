@@ -23,9 +23,13 @@ public class Sale {
     @Column(nullable = false, name = "DATE_CREATED")
     private Date dateCreated;
 
-    public Sale(Integer documentClient, Integer totalAmount, Date dateCreated) {
+    @Column(name = "ADDRESS")
+    private String address;
+
+    public Sale(Integer documentClient, Integer totalAmount, Date dateCreated, String address) {
         this.documentClient = documentClient;
         this.totalAmount = totalAmount;
         this.dateCreated = dateCreated;
+        this.address = address;
     }
 }
