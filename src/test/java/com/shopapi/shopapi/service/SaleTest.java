@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,23 +24,25 @@ public class SaleTest {
     @InjectMocks
     private SaleService saleService;
 
+    private static final String ADDRESS = "D1";
+
     @Test
     public void Given_a_sale_When_invoking_createSale_Then_save_sale(){
-        Sale sale = new Sale(1,1007207933,100,new Date());
+        Sale sale = new Sale(1,1007207933,100,new Date(),ADDRESS);
         Mockito.when(saleRepository.save(sale)).thenReturn(sale);
         Assertions.assertEquals(sale, saleService.createSale(sale));
     }
 
     @Test
     public void Given_a_nothing_When_invoking_getSales_Then_show_all_sales(){
-        Sale sale = new Sale(1, 1007207933, 100, new Date());
+        Sale sale = new Sale(1, 1007207933, 100, new Date(),ADDRESS);
         Mockito.when(saleRepository.findAll()).thenReturn(Collections.singletonList(sale));
         Assertions.assertNotNull(saleService.getSales());
     }
 
     @Test
     public void Given_a_document_When_invoking_getSaleByUserDocument_Then_show_all_sales_with_the_same_user_document(){
-        Sale sale = new Sale(1, 1007207933, 100, new Date());
+        Sale sale = new Sale(1, 1007207933, 100, new Date(),ADDRESS);
         Mockito.when(saleRepository.findSaleByUserDocument(sale.getDocumentClient())).thenReturn(Collections.singletonList(sale));
         Assertions.assertNotNull(saleService.getSaleByUserDocument(sale.getDocumentClient()));
     }
@@ -47,10 +50,10 @@ public class SaleTest {
     @Test
     public void Given_a_document_and_three_times_same_date_When_invoking_preventThreeSalesSameDay_Then_throw_exception(){
         List<Sale> clientSales = new ArrayList<>();
-        Sale sale1 = new Sale(1, 1007207933, 100, new Date());
-        Sale sale2 = new Sale(2, 1007207933, 100, new Date());
-        Sale sale3 = new Sale(3, 1007207933, 100, new Date());
-        Sale sale4 = new Sale(3, 1007207933, 100, new Date());
+        Sale sale1 = new Sale(1, 1007207933, 100, new Date(),ADDRESS);
+        Sale sale2 = new Sale(2, 1007207933, 100, new Date(),ADDRESS);
+        Sale sale3 = new Sale(3, 1007207933, 100, new Date(),ADDRESS);
+        Sale sale4 = new Sale(3, 1007207933, 100, new Date(),ADDRESS);
         clientSales.add(sale1);
         clientSales.add(sale2);
         clientSales.add(sale3);

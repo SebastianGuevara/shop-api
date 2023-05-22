@@ -28,6 +28,8 @@ public class ProductController {
     private final ISaleProductService saleProductService;
     private final IStockService stockService;
 
+    private static final String ADDRESS = "D1";
+
     @CrossOrigin(origins = "*")
     @Operation(summary = "Add products to the stock")
     @PostMapping("/product")
@@ -74,7 +76,7 @@ public class ProductController {
             for (ProductToSellDTO product : sellDataDTO.getProducts()) {
                 productsToSell.add(new Stock(product.getCode(), product.getUnitsToSell()));
             }
-            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date()));
+            Sale sale = saleService.createSale(new Sale(sellDataDTO.getClientDocument(), Float.valueOf(stockService.getTotalPrice(productsToSell)).intValue(), new Date(), ADDRESS));
             for (ProductToSellDTO product : sellDataDTO.getProducts()) {
                 saleProductService.createSaleProduct(new SaleProduct(new Stock(product.getCode(), product.getUnitsToSell()), product.getUnitsToSell(), sale));
             }
